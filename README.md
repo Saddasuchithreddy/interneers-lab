@@ -408,7 +408,6 @@ The frontend setup instructions are located in the `frontend` directory. You don
 Head over to the frontend README to check it out:
 [Frontend README](frontend/README.md)
 
-
 ## Further Reading
 
 - Django: https://docs.djangoproject.com/en/3.2/
@@ -425,7 +424,30 @@ Head over to the frontend README to check it out:
 - However, never commit secrets (API keys, passwords) directly. Use environment variables or .env files (excluded via .gitignore).
 
 ---
+## Changes which I made
 
+I have done the above change which was told. Additionally I have added a extra query parameter as age. Here there are 4 cases possible :
+
+1. Both name and age are provided
+```
+QUERY : http://127.0.0.1:8001/hello/?name=Bob&age=20
+RESPONSE : {"message":"Hello, Bob!","age":"20"}
+```
+2. Only name
+```
+QUERY : http://127.0.0.1:8001/hello/?name=Bob
+RESPONSE : {"message": "Hello, Bob!", "age": "Unknown"}
+```
+3. Only age
+```
+QUERY : http://127.0.0.1:8001/hello/?name=Bob
+RESPONSE : {"message": "Hello, World!", "age": "20"}
+```
+4. No age and name
+```
+QUERY : http://127.0.0.1:8001/hello/?name=Bob
+RESPONSE : {"message":"Hello, World!","age":"Unknown"}
+```
 
 
 
