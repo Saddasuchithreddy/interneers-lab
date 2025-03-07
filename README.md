@@ -310,19 +310,28 @@ from django.http import JsonResponse
 
 def hello_name(request):
     """
-    A simple view that returns 'Hello, {name}' in JSON format.
-    Uses a query parameter named 'name'.
+    A simple view that returns 'Hello, {name}, age : {age} ' in JSON format.
+    Uses query parameters named 'name' and age
     """
     # Get 'name' from the query string, default to 'World' if missing
+    # Get age from the query string, default to Unknown
     name = request.GET.get("name", "World")
-    return JsonResponse({"message": f"Hello, {name}!"})
+    age = request.GET.get("age",None)
+    
+    if not age:
+        return JsonResponse({"message": f"Hello, {name}!"+", age: Unknown"}) 
+    elif int(age)<0:
+        return JsonResponse({"error": "Input age is negative"})
+    
+    return JsonResponse({"message": f"Hello, {name}!" , "age": age })
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', hello_name), 
-    # Example usage: /hello/?name=Bob
-    # returns {"message": "Hello, Bob!"}
+    # Example usage: /hello/?name=BOB&age=20
+    # returns {"message":"Hello, BOB!","age":"20"}
 ]
+
 
 ```
 ---
@@ -426,30 +435,33 @@ Head over to the frontend README to check it out:
 ---
 ## Changes which I made
 
-I have done the above change which was told. Additionally I have added a extra query parameter as age. Here there are 4 cases possible :
+I have done the above change which was told. Additionally I have added a extra query parameter as age. Here there are 5 cases possible (4 + 1 error case) :
 
 1. Both name and age are provided
 ```
 QUERY : http://127.0.0.1:8001/hello/?name=Bob&age=20
-RESPONSE : {"message":"Hello, Bob!","age":"20"}
+RESPONSE : {"message": "Hello, Bob!", "age": "20"}
 ```
 2. Only name
 ```
 QUERY : http://127.0.0.1:8001/hello/?name=Bob
-RESPONSE : {"message": "Hello, Bob!", "age": "Unknown"}
+RESPONSE : {"message": "Hello, Bob!, age: Unknown"}
 ```
 3. Only age
 ```
-QUERY : http://127.0.0.1:8001/hello/?name=Bob
+QUERY : http://127.0.0.1:8001/hello/?age=20
 RESPONSE : {"message": "Hello, World!", "age": "20"}
 ```
 4. No age and name
 ```
-QUERY : http://127.0.0.1:8001/hello/?name=Bob
-RESPONSE : {"message":"Hello, World!","age":"Unknown"}
+QUERY : http://127.0.0.1:8001/hello/
+RESPONSE : {"message": "Hello, World!, age: Unknown"}
 ```
-
-
+5. Negative age
+```
+QUERY : http://127.0.0.1:8001/hello/?name=Bob&age=-20
+RESPONSE : {"error": "Input age is negative"}
+```
 
 
 
