@@ -12,7 +12,13 @@ def hello_name(request):
     # Get 'name' from the query string, default to 'World' if missing
     # Get age from the query string, default to Unknown
     name = request.GET.get("name", "World")
-    age = request.GET.get("age","Unknown")
+    age = request.GET.get("age",None)
+    
+    if not age:
+        return JsonResponse({"message": f"Hello, {name}!"+", age: Unknown"}) 
+    elif int(age)<0:
+        return JsonResponse({"error": "Input age is negative"})
+    
     return JsonResponse({"message": f"Hello, {name}!" , "age": age })
 
 urlpatterns = [
