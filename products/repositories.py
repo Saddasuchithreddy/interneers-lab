@@ -57,22 +57,3 @@ class ProductRepository:
             "total_pages": total_pages,
             "total_items": total_count,
         }
-
-
-    # def list(self, page=1, page_size=5):
-
-    #     paginated_products = Product.objects.paginate(page=page, per_page=page_size)
-    
-    #     # Check if the paginated result is empty
-    #     if not paginated_products.items:
-    #         return {"data": [], "has_next_page": False, "page": page, "total_pages": 0}
-        
-    #     # Calculate if there's a next page
-    #     has_next_page = paginated_products.page < paginated_products.pages
-        
-    #     return {
-    #         "data": [product.to_json() for product in paginated_products.items],
-    #         "has_next_page": has_next_page,
-    #         "page": paginated_products.page,
-    #         "total_pages": paginated_products.pages
-    #     }
