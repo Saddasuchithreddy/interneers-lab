@@ -21,9 +21,9 @@ class ProductRepository:
                 if key != 'product_category':
                     setattr(product, key, value)
                 elif key == 'product_category':
-                    print(f"i came here !!!!!!!!!------------------- value : {value} and {product.product_category}")
+                    # print(f"i came here !!!!!!!!!------------------- value : {value} and {product.product_category}")
                     product.product_category = ObjectId(value)
-                    print(f"i came here !!!!!!!!!------------------- value : {value} and {product.product_category}")
+                    # print(f"i came here !!!!!!!!!------------------- value : {value} and {product.product_category}")
             product.save()
         return product
 
