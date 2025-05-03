@@ -21,9 +21,7 @@ class ProductRepository:
                 if key != 'product_category':
                     setattr(product, key, value)
                 elif key == 'product_category':
-                    # print(f"i came here !!!!!!!!!------------------- value : {value} and {product.product_category}")
                     product.product_category = ObjectId(value)
-                    # print(f"i came here !!!!!!!!!------------------- value : {value} and {product.product_category}")
             product.save()
         return product
 
@@ -33,35 +31,9 @@ class ProductRepository:
             product.delete()
             return True
         return False
-    
-    def list(self, page=1, page_size=5):
-        # Calculate the number of documents to skip
-        skip_count = (page - 1) * page_size
 
-        # Fetch paginated products using skip and limit
-        products = Product.objects.skip(skip_count).limit(page_size)
-
-        # Get the total count of documents in the collection
-        total_count = Product.objects.count()
-
-        # Calculate total pages
-        total_pages = (total_count + page_size - 1) // page_size
-
-        # Check if the paginated result is empty
-        if not products:
-            return {"data": [], "has_next_page": False, "page": page, "total_pages": total_pages}
-
-        # Determine if there's a next page
-        has_next_page = page < total_pages
-
-        # Return paginated response
-        return {
-            "data": [product.to_json() for product in products],
-            "has_next_page": has_next_page,
-            "page": page,
-            "total_pages": total_pages,
-            "total_items": total_count,
-        }
+    def list(self):
+        return Product.objects.all()
 
 class ProductCategoryRepository:
 
@@ -92,79 +64,115 @@ class ProductCategoryRepository:
             return True
         return False
 
-    def list(self, page=1, page_size=5):
-        # Calculate the number of documents to skip
-        skip_count = (page - 1) * page_size
-
-        # Fetch paginated categories using skip and limit
-        categories = ProductCategory.objects.skip(skip_count).limit(page_size)
-
-        # Get the total count of documents in the collection
-        total_count = ProductCategory.objects.count()
-
-        # Calculate total pages
-        total_pages = (total_count + page_size - 1) // page_size
-
-        # Check if the paginated result is empty
-        if not categories:
-            return {"data": [], "has_next_page": False, "page": page, "total_pages": total_pages}
-
-        # Determine if there's a next page
-        has_next_page = page < total_pages
-
-        # Return paginated response
-        return {
-            "data": [category.to_json() for category in categories],
-            "has_next_page": has_next_page,
-            "page": page,
-            "total_pages": total_pages,
-            "total_items": total_count,
-        }
+    def list(self):
+        return ProductCategory.objects.all()
     
-    def list_products(self,category_id, page=1, page_size=5):
-
-        # Filter products by category
-        all_products = Product.objects(product_category=category_id)
-
-        # Calculate the number of documents to skip
-        skip_count = (page - 1) * page_size
-
-        # Fetch paginated products using skip and limit
-        products = all_products.skip(skip_count).limit(page_size)
-
-        # Get the total count of documents in this category
-        total_count = all_products.count()
-
-        # Calculate total pages
-        total_pages = (total_count + page_size - 1) // page_size
-
-        # Check if the paginated result is empty
-        if not products:
-            return {"data": [], "has_next_page": False, "page": page, "total_pages": total_pages}
+    def list_products(self,category_id):
+        return Product.objects(product_category=category_id)
 
 
-        # Serialize products into JSON-like format
-        serialized_products = [
-            {
-                "id": str(product.id),
-                "name": product.name,
-                "description": product.description if product.description else None,
-                "category": str(product.product_category.id) if product.product_category else None,
-                "price": str(product.price),
-                "brand": product.brand  if product.brand else None,
-                "quantity": product.quantity,
-            }
-            for product in products
-        ]
+    # old pagenation codes :
 
-        # Determine if there's a next page
-        has_next_page = page < total_pages
+        
+    
+    # def list(self, page=1, page_size=5):
+    #     # Calculate the number of documents to skip
+    #     skip_count = (page - 1) * page_size
 
-        # Return paginated response
-        return {
-            "data": serialized_products,
-            "has_next_page": has_next_page,
-            "page": page,
-            "total_pages": total_pages,
-            "total_items": total_count,
-        }
+    #     # Fetch paginated products using skip and limit
+    #     products = Product.objects.skip(skip_count).limit(page_size)
+
+    #     # Get the total count of documents in the collection
+    #     total_count = Product.objects.count()
+
+    #     # Calculate total pages
+    #     total_pages = (total_count + page_size - 1) // page_size
+
+    #     # Determine if there's a next page
+    #     has_next_page = page < total_pages
+
+    #     # Return paginated response
+    #     return {
+    #         "data": list(products),
+    #         "has_next_page": has_next_page,
+    #         "page": page,
+    #         "total_pages": total_pages,
+    #         "total_items": total_count,
+    #     }
+
+    # def list(self, page=1, page_size=5):
+    #     # Calculate the number of documents to skip
+    #     skip_count = (page - 1) * page_size
+
+    #     # Fetch paginated categories using skip and limit
+    #     categories = ProductCategory.objects.skip(skip_count).limit(page_size)
+
+    #     # Get the total count of documents in the collection
+    #     total_count = ProductCategory.objects.count()
+
+    #     # Calculate total pages
+    #     total_pages = (total_count + page_size - 1) // page_size
+
+    #     # Check if the paginated result is empty
+    #     if not categories:
+    #         return {"data": [], "has_next_page": False, "page": page, "total_pages": total_pages}
+
+    #     # Determine if there's a next page
+    #     has_next_page = page < total_pages
+
+    #     # Return paginated response
+    #     return {
+    #         "data": [category.to_json() for category in categories],
+    #         "has_next_page": has_next_page,
+    #         "page": page,
+    #         "total_pages": total_pages,
+    #         "total_items": total_count,
+    #     }
+    
+    # def list_products(self,category_id, page=1, page_size=5):
+
+    #     # Filter products by category
+    #     all_products = Product.objects(product_category=category_id)
+
+    #     # Calculate the number of documents to skip
+    #     skip_count = (page - 1) * page_size
+
+    #     # Fetch paginated products using skip and limit
+    #     products = all_products.skip(skip_count).limit(page_size)
+
+    #     # Get the total count of documents in this category
+    #     total_count = all_products.count()
+
+    #     # Calculate total pages
+    #     total_pages = (total_count + page_size - 1) // page_size
+
+    #     # Check if the paginated result is empty
+    #     if not products:
+    #         return {"data": [], "has_next_page": False, "page": page, "total_pages": total_pages}
+
+
+    #     # Serialize products into JSON-like format
+    #     serialized_products = [
+    #         {
+    #             "id": str(product.id),
+    #             "name": product.name,
+    #             "description": product.description if product.description else None,
+    #             "category": str(product.product_category.id) if product.product_category else None,
+    #             "price": str(product.price),
+    #             "brand": product.brand  if product.brand else None,
+    #             "quantity": product.quantity,
+    #         }
+    #         for product in products
+    #     ]
+
+    #     # Determine if there's a next page
+    #     has_next_page = page < total_pages
+
+    #     # Return paginated response
+    #     return {
+    #         "data": serialized_products,
+    #         "has_next_page": has_next_page,
+    #         "page": page,
+    #         "total_pages": total_pages,
+    #         "total_items": total_count,
+    #     }

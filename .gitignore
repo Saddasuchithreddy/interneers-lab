@@ -10,3 +10,4 @@ products/__pycache__/*
 myproject/__pycache__/*
 products/migrations/__pycache__/*
 .vscode/
+steps.txt
