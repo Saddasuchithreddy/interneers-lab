@@ -1,6 +1,13 @@
+# Virtual enviroment
 venv/
-products/__pycache__/*
-myproject/__pycache__/*
-products/migrations/__pycache__/*
+
+# Python bytecode cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# VS Code settings
 .vscode/
+
+# Other folders
 steps.txt
