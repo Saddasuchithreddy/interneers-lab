@@ -8,6 +8,12 @@ class ProductService:
         return self.repository.list()
     
     def create_product(self, product_data):
+        if 'name' not in product_data or 'price' not in product_data or 'quantity' not in product_data or 'brand' not in product_data:
+            raise ValueError('Name, price, quantity and brand are required')
+        
+        if product_data['price'] < 0 or product_data['quantity'] < 0:
+            raise ValueError('Price and quantity cannot be negative')
+        
         return self.repository.create(product_data)
     
     def get_product(self, product_id):

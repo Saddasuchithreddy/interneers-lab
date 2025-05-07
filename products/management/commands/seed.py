@@ -7,7 +7,10 @@ from decimal import Decimal
 
 logger = logging.getLogger(__name__)
 
-# python manage.py seed --mode=refresh
+# to run this there are 2 modes refresh and clear
+# refresh clears the existing data and seeds the new data
+# clear just only clears the data
+# to run the code go the the root and use : python manage.py seed --mode=refresh
 
 """ Clear all data and creates addresses """
 MODE_REFRESH = 'refresh'
