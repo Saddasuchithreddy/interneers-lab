@@ -5,6 +5,7 @@ from products.models import Product, ProductCategory
 import logging
 from decimal import Decimal
 
+logging.basicConfig( filename="seeding.log", level = logging.INFO)
 logger = logging.getLogger(__name__)
 
 # to run this there are 2 modes refresh and clear

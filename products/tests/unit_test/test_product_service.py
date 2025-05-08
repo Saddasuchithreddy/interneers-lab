@@ -5,7 +5,7 @@ from parameterized import parameterized
 
 from products import services
 
-# to run this file , at the root use this in the terminal : python -m unittest products.tests.test_product_service
+# to run this file , at the root use this in the terminal : python -m unittest products.tests.unit_test.test_product_service
 
 class TestProductService(unittest.TestCase):
     
@@ -17,7 +17,7 @@ class TestProductService(unittest.TestCase):
     def test_list_products(self,mock_list):
         
         # loading the mock data from the json file
-        with open("products/tests/product_data.json","r") as file:
+        with open("products/tests/unit_test/product_data.json","r") as file:
             mock_data = json.load(file)
 
         # Create mock objects from JSON data
@@ -176,4 +176,4 @@ class TestProductService(unittest.TestCase):
             self.assertEqual(result,True)
     
 if __name__ == "__main__":
-    unittest.main(verbosity=0)
+    unittest.main(verbosity=2)

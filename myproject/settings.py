@@ -12,7 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import mongoengine
+import sys
+import os
+from dotenv import load_dotenv
 
+#loading the enviroment variables form the .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -93,13 +98,19 @@ DATABASES = {
 # Connect to MongoDB Atlas
 
 # MONGO_URI = "mongodb+srv://suchith:rzwDYhuT5D0cGzBN@cluster0.2gotksl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-MONGO_URI = "mongodb+srv://suchith:rzwDYhuT5D0cGzBN@cluster0.2gotksl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
-mongoengine.connect(
-    db='projectd',
-    host=MONGO_URI,
-    authentication_source='admin'
-)
+MONGO_URI = os.environ.get('MONGO_URI')
+
+USE_LOCAL_MONGO = os.getenv("USE_LOCAL_MONGO", "false").lower() == "true"
+
+if USE_LOCAL_MONGO:
+    mongoengine.connect(db='mydb', host='mongodb://localhost:27017/mydb')
+else:
+    mongoengine.connect(
+        db='projectd',
+        host=MONGO_URI,
+        authentication_source='admin'
+    )
 
 
 # Password validation

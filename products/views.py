@@ -72,7 +72,7 @@ def get_product(request, product_id):
         product = product_service.get_product(product_id)
         serialized_product = ProductSerializers(product)
         
-        return Response(serialized_product.data)
+        return Response(serialized_product.data, status = status.HTTP_200_OK)
     
     except ValueError as e:
         return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)

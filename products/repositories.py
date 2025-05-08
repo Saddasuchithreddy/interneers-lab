@@ -18,10 +18,7 @@ class ProductRepository:
         product = self.get(product_id)
         if product:
             for key, value in product_data.items():
-                if key != 'product_category':
-                    setattr(product, key, value)
-                elif key == 'product_category':
-                    product.product_category = ObjectId(value)
+                setattr(product, key, value)
             product.save()
         return product
 

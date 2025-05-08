@@ -5,7 +5,7 @@ from parameterized import parameterized
 
 from products import services
 
-# to run this file , at the root use this in the terminal : python -m unittest products.tests.test_category_services
+# to run this file , at the root use this in the terminal : python -m unittest products.tests.unit_test.test_category_service
 
 class TestProductCategoryService(unittest.TestCase):
     
@@ -17,7 +17,7 @@ class TestProductCategoryService(unittest.TestCase):
     def test_list_category(self,mock_list):
         
         # loading the mock data from the json file
-        with open("products/tests/category_data.json","r") as file:
+        with open("products/tests/unit_test/category_data.json","r") as file:
             mock_data = json.load(file)
 
         # Create mock objects from JSON data
@@ -169,7 +169,7 @@ class TestProductCategoryService(unittest.TestCase):
     @patch("products.services.ProductCategoryRepository.list_products")
     def test_list_category(self,input_category_id,mock_list_products):
         # loading the mock data from the json file
-        with open("products/tests/product_data.json","r") as file:
+        with open("products/tests/unit_test/product_data.json","r") as file:
             mock_data = json.load(file)
 
         filtered_data = []
